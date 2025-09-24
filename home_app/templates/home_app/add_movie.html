@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>اضافه کردن فیلم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+            width: 400px;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.5);
+            outline: none;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .checkbox-label input {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .file-field {
+            border: none;
+            margin-bottom: 20px;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #5a67d8;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>اضافه کردن فیلم جدید</h2>
+<form method="POST" enctype="multipart/form-data" action="{% url 'add_movie' %}">
+    {% csrf_token %}
+    <input type="text" name="title" class="input-field" placeholder="عنوان فیلم" required>
+    <textarea name="description" class="input-field" placeholder="توضیحات فیلم"></textarea>
+    <input type="text" name="genre" class="input-field" placeholder="ژانر">
+    <input type="number" name="release_year" class="input-field" placeholder="سال تولید">
+    
+    <label class="checkbox-label">
+        <input type="checkbox" name="status">
+        فیلم دیده شده
+    </label>
+
+    <input type="file" name="poster" class="file-field">
+
+    <button type="submit" class="btn">ذخیره فیلم</button>
+</form>
+
+    </div>
+</body>
+</html>
