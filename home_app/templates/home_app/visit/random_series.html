@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>سریال تصادفی 🎬</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; background:#1f1c2c; color:#fff; }
+        .card { background:rgba(0,0,0,0.7); padding:30px; border-radius:15px; text-align:center; margin-bottom:20px; }
+        button { padding:12px 25px; border:none; border-radius:10px; background:linear-gradient(135deg,#ff416c,#ff4b2b); color:#fff; cursor:pointer; transition:0.3s; }
+        button:hover { transform:scale(1.05); background:linear-gradient(135deg,#ffafbd,#ffc3a0); }
+    </style>
+</head>
+<body>
+    <div class="card">
+        {% if series %}
+            <h2>🎬 سریال تصادفی</h2>
+            <p>{{ series }}</p>
+        {% else %}
+            <p>هیچ سریالی موجود نیست!</p>
+        {% endif %}
+    </div>
+
+    <form action="{% url 'online_movie' %}" method="get">
+        <button type="submit">🎲 سریال بعدی</button>
+    </form>
+</body>
+</html>
+ 

@@ -13,10 +13,14 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            min-height: 100vh;
             color: #fff;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             background: linear-gradient(270deg, #1f1c2c, #928dab, #3a2c58, #1f1c2c);
@@ -40,6 +44,8 @@
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
+            left: 0;
+            width: 100%;
             z-index: 100;
             box-shadow: 0 4px 20px rgba(0,0,0,0.7);
             border-bottom: 2px solid #ffd700;
@@ -78,7 +84,6 @@
         }
 
         .dropdown {
-            display: none;
             position: absolute;
             right: 0;
             top: 70px;
@@ -89,13 +94,15 @@
             padding: 12px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.8);
             opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.4s ease;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 200;
         }
 
-        .profile:hover .dropdown {
-            display: block;
+        .dropdown.show {
             opacity: 1;
+            visibility: visible;
             transform: translateY(0);
         }
 
@@ -106,14 +113,14 @@
             text-decoration: none;
             border-radius: 8px;
             margin-bottom: 8px;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             background: linear-gradient(120deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
         }
 
         .dropdown a:hover {
             background: #ffd700;
             color: #000;
-            transform: translateX(8px) scale(1.05);
+            transform: translateX(5px) scale(1.05);
             box-shadow: 0 0 10px #ffd700;
         }
 
@@ -150,7 +157,6 @@
             background: linear-gradient(135deg, #ffafbd, #ffc3a0);
         }
 
-        /* نور متحرک روی دکمه */
         .btn::before {
             content: '';
             position: absolute;
@@ -168,7 +174,6 @@
             left: 0;
         }
 
-        /* انیمیشن کوچک اضافی روی دکمه‌ها */
         .btn span {
             position: relative;
             z-index: 1;
@@ -195,77 +200,15 @@
                 font-size: 2rem;
             }
         }
-        .profile {
-    position: relative;
-    cursor: pointer;
-}
-
-.profile img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 3px solid #ffd700;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.profile:hover img {
-    transform: rotate(10deg) scale(1.15);
-    box-shadow: 0 0 20px #ffd700, 0 0 40px rgba(255,215,0,0.4);
-}
-
-.dropdown {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 70px;
-    background: rgba(0,0,0,0.95);
-    border: 1px solid #ffd700;
-    border-radius: 12px;
-    min-width: 220px;
-    padding: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.8);
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: all 0.4s ease;
-    z-index: 200;
-}
-
-.profile:hover .dropdown {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.dropdown a {
-    display: block;
-    padding: 12px 15px;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    transition: all 0.4s ease;
-    background: linear-gradient(120deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
-}
-
-.dropdown a:hover {
-    background: #ffd700;
-    color: #000;
-    transform: translateX(8px) scale(1.05);
-    box-shadow: 0 0 10px #ffd700;
-}
-
     </style>
 </head>
 <body>
-   
 <header>
     <h1>MovieZone 🎬</h1>
 
-    <div class="profile">
+    <div class="profile" id="profile">
         <img src="https://via.placeholder.com/60" alt="Profile">
-
-        <!-- منوی کشویی -->
-        <div class="dropdown">
+        <div class="dropdown" id="dropdown">
             <a href="#">ثبت نام</a>
             <a href="#">ویرایش حساب کاربری</a>
             <a href="#">دیدن تمام فیلم‌ها</a>
@@ -275,17 +218,27 @@
     </div>
 </header>
 
-    <!-- دکمه‌ها -->
-    <div class="buttons">
-        <a href="{% url 'whatched' %}" class="btn"><span>فیلم‌های دیده شده</span></a>
-        <a href="{%url 'unseen'%}" class="btn"><span>فیلم‌های ندیده</span></a>
-        <a href="{% url 'movies' %}" class="btn"><span>فیلم های خودم</span></a>
-        <a href="#" class="btn"><span>فیلم رندوم از لیست خودم</span></a>
-        <a href="#" class="btn"><span>فیلم رندوم آنلاین 🎥</span></a>
-        <a href="#" class="btn"><span>ژانرهای محبوب</span></a>
-        <a href="#" class="btn"><span>فیلم‌های پیشنهادی</span></a>
-        <a href="{% url 'form_add' %}" class="btn"><span>اضافه کردن ب  لیست</span></a>
-    </div>
+<div class="buttons">
+    <a href="{% url 'whatched' %}" class="btn"><span>فیلم‌های دیده شده</span></a>
+    <a href="{% url 'unseen' %}" class="btn"><span>فیلم‌های ندیده</span></a>
+    <a href="{% url 'movies' %}" class="btn"><span>فیلم های خودم</span></a>
+    <a href="{%url 'random_movie_from_mylist'%}" class="btn"><span>فیلم رندوم از لیست خودم</span></a>
+    <a href="{%url 'online_movie'%}" class="btn"><span>فیلم رندوم آنلاین 🎥</span></a>
+    <a href="{% url 'form_add' %}" class="btn"><span>اضافه کردن به لیست</span></a>
+</div>
 
+<script>
+    const profile = document.getElementById('profile');
+    const dropdown = document.getElementById('dropdown');
+
+    profile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('show');
+    });
+
+    document.addEventListener('click', () => {
+        dropdown.classList.remove('show');
+    });
+</script>
 </body>
 </html>

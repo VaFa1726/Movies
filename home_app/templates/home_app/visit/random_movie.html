@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فیلم تصادفی 🎬</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1f1c2c, #3a2c58);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+        }
+
+        h2 {
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .movie-card {
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 20px rgba(255,215,0,0.5);
+            margin-bottom: 100px; /* فاصله برای دکمه */
+        }
+
+        .movie-card img {
+            border-radius: 12px;
+            margin-top: 10px;
+            max-width: 100%;
+            box-shadow: 0 0 15px rgba(255,215,0,0.7);
+        }
+
+        /* دکمه ثابت پایین صفحه */
+        .fixed-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+
+        .fixed-button button {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .fixed-button button:hover {
+            transform: scale(1.05) translateY(-3px);
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="movie-card">
+        {% if movie %}
+            <h2>🎬 فیلم تصادفی</h2>
+            <p><strong>عنوان:</strong> {{ movie.title }}</p>
+            <p><strong>ژانر:</strong> {{ movie.genre }}</p>
+            <p><strong>سال انتشار:</strong> {{ movie.release_year }}</p>
+            {% if movie.poster %}
+                <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+            {% endif %}
+        {% else %}
+            <p>هیچ فیلمی موجود نیست!</p>
+        {% endif %}
+    </div>
+
+    <!-- دکمه ثابت -->
+    <div class="fixed-button">
+        <form action="{% url 'random_movie' %}" method="get">
+            <button type="submit">🎲 فیلم بعدی</button>
+        </form>
+    </div>
+
+</body>
+</html>
