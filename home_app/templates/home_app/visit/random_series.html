@@ -4,10 +4,74 @@
     <meta charset="UTF-8">
     <title>سریال تصادفی 🎬</title>
     <style>
-        body { font-family: 'Arial', sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; background:#1f1c2c; color:#fff; }
-        .card { background:rgba(0,0,0,0.7); padding:30px; border-radius:15px; text-align:center; margin-bottom:20px; }
-        button { padding:12px 25px; border:none; border-radius:10px; background:linear-gradient(135deg,#ff416c,#ff4b2b); color:#fff; cursor:pointer; transition:0.3s; }
-        button:hover { transform:scale(1.05); background:linear-gradient(135deg,#ffafbd,#ffc3a0); }
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+
+        body { 
+            font-family: 'Vazirmatn', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            background: linear-gradient(135deg, #89f7fe, #66a6ff); 
+            color: #0f172a; 
+            padding: 2rem;
+        }
+
+        .card { 
+            background: rgba(255,255,255,0.85); 
+            padding: 40px 30px; 
+            border-radius: 20px; 
+            text-align: center; 
+            margin-bottom: 30px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25); 
+            transition: transform 0.3s, box-shadow 0.3s; 
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #1e40af;
+            text-shadow: 0 0 10px rgba(30,64,175,0.5);
+        }
+
+        p {
+            font-size: 1.3rem;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        button { 
+            padding: 14px 30px; 
+            border: none; 
+            border-radius: 50px; 
+            background: linear-gradient(270deg,#ff6b6b,#fcd34d,#22c55e,#3b82f6); 
+            background-size: 800% 800%; 
+            color: #fff; 
+            cursor: pointer; 
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 10px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: gradientMove 8s ease infinite;
+        }
+
+        button:hover { 
+            transform: scale(1.12); 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
     </style>
 </head>
 <body>
@@ -23,6 +87,7 @@
     <form action="{% url 'online_movie' %}" method="get">
         <button type="submit">🎲 سریال بعدی</button>
     </form>
+
+    <button onclick="window.location.href='/'">🏠 بازگشت به خانه</button>
 </body>
 </html>
- 

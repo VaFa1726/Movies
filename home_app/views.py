@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 from . import models
 from . import utils
-# Create your views here.
+import random
+import requests
+from bs4 import BeautifulSoup
+from .utils import get_series_list
+
 def home(request):
     return render(request,'home_app/home.html')
 def form_add(request):
@@ -71,21 +75,14 @@ def random_movie(request):
         mov = None
     return render(request, 'home_app/visit/random_movie.html', {'movie': mov})
 
-from django.shortcuts import render
-import random
-from .utils import get_series_list  # فرض کردیم تابع بالا در فایل utils.py هست
+
 
 def random_series(request):
-    series_list = get_series_list()  # گرفتن لیست سریال‌ها
+    series_list = get_series_list() 
     selected_series = random.choice(series_list) if series_list else None
 
     return render(request, 'home_app/visit/random_series.html', {'series': selected_series})
-import random
-import requests
-from bs4 import BeautifulSoup
-from django.shortcuts import render
 
-# تابع استخراج سریال‌ها
 def get_series_list():
     url = 'https://upside.ir/%D8%A8%D9%87%D8%AA%D8%B1%DB%8C%D9%86-%D8%B3%D8%B1%DB%8C%D8%A7%D9%84-%D9%87%D8%A7%DB%8C-%D8%AE%D8%A7%D8%B1%D8%AC%DB%8C/'
     response = requests.get(url)
@@ -121,16 +118,18 @@ def get_series_list():
                     elif 'متوسط زمان' in header:
                         avg_time = value
 
-        # توضیحات
         desc_div = title_tag.find_next('div', class_='avia_textblock')
         description = ''
         if desc_div:
             paragraphs = desc_div.find_all('p')
             description = "\n".join(p.get_text(strip=True) for p in paragraphs)
 
-        # لینک سریال
         link_tag = title_tag.find('a')
         link = link_tag['href'] if link_tag else None
+
+        # دریافت عکس سریال
+        img_tag = title_tag.find_next('img')
+        image_url = img_tag['src'] if img_tag else None
 
         series_list.append({
             'title': main_title,
@@ -141,7 +140,8 @@ def get_series_list():
             'avg_time': avg_time,
             'imdb': imdb,
             'description': description,
-            'link': link
+            'link': link,
+            'image': image_url
         })
 
     return series_list
@@ -153,4 +153,90 @@ def random_series_view(request):
     series_list = get_series_list()
     random_series = choice_random(series_list)
     context = {'series': random_series}
-    return render(request, 'random_series.html', context)
+    return render(request, 'home_app/visit/advanced.html', context)
+
+
+import requests
+from bs4 import BeautifulSoup
+import random
+from django.shortcuts import render
+
+def all_movie():
+    url = 'https://upside.ir/%D8%A8%D9%87%D8%AA%D8%B1%DB%8C%D9%86-%D8%B3%D8%B1%DB%8C%D8%A7%D9%84-%D9%87%D8%A7%DB%8C-%D8%AE%D8%A7%D8%B1%D8%AC%DB%8C/'
+    response = requests.get(url)
+    if response.status_code != 200:
+        return []
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    series_list = []
+
+    titles = soup.find_all('h2')
+    for title_tag in titles:
+        main_title = title_tag.get_text(strip=True)
+
+        if "لیست سریال‌ها" in main_title:
+            continue
+
+        # پیدا کردن جدول اطلاعات
+        table = title_tag.find_next('table')
+        if not table:
+            continue
+
+        genre = year = seasons = imdb = episodes = avg_time = ''
+        rows = table.find_all('tr')
+        for row in rows:
+            cols = row.find_all('td')
+            if len(cols) >= 2:
+                header = cols[0].get_text(strip=True)
+                value = cols[1].get_text(strip=True)
+                if 'ژانر' in header:
+                    genre = value
+                elif 'سال ساخت' in header:
+                    year = value
+                elif 'تعداد فصل' in header:
+                    seasons = value
+                elif 'IMDB' in header:
+                    imdb = value
+                elif 'تعداد قسمت' in header:
+                    episodes = value
+                elif 'متوسط زمان' in header:
+                    avg_time = value
+
+    
+        desc_div = title_tag.find_next(lambda tag: tag.name == 'div' and tag.get('itemprop') == 'text')
+        description = ''
+        if desc_div:
+            paragraphs = desc_div.find_all('p')
+            description = "\n".join(p.get_text(strip=True) for p in paragraphs)
+
+   
+        link_tag = title_tag.find('a')
+        link = link_tag['href'] if link_tag else None
+
+  
+        img_tag = title_tag.find_next('img')
+        image = img_tag['src'] if img_tag else None
+
+        series_list.append({
+            'title': main_title,
+            'genre': genre,
+            'year': year,
+            'seasons': seasons,
+            'episodes': episodes,
+            'avg_time': avg_time,
+            'imdb': imdb,
+            'description': description,
+            'link': link,
+            'image': image  
+        })
+
+    return series_list
+
+def all_and_random_series_view(request):
+    series_list = all_movie()
+    random_series = random.choice(series_list) if series_list else None
+    context = {
+        'series_list': series_list,
+        'random_series': random_series
+    }
+    return render(request, 'home_app/visit/all_and_random_series.html', context)

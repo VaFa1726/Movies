@@ -1,100 +1,171 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فیلم تصادفی 🎬</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1f1c2c, #3a2c58);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            position: relative;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
 
-        h2 {
-            color: #ffd700;
-            text-shadow: 0 0 10px #ffd700;
-            margin-bottom: 15px;
-        }
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+    position: relative;
+    overflow-x: hidden;
+}
 
-        .movie-card {
-            background: rgba(0,0,0,0.7);
-            border: 2px solid #ffd700;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 0 20px rgba(255,215,0,0.5);
-            margin-bottom: 100px; /* فاصله برای دکمه */
-        }
+/* ذرات پس‌زمینه */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+    animation: moveStars 20s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+@keyframes moveStars {
+    0% { background-position: 0 0; }
+    100% { background-position: -1000px 1000px; }
+}
 
-        .movie-card img {
-            border-radius: 12px;
-            margin-top: 10px;
-            max-width: 100%;
-            box-shadow: 0 0 15px rgba(255,215,0,0.7);
-        }
+/* عنوان نورانی */
+h2 {
+    position: relative;
+    z-index: 1;
+    color: #ffd700;
+    text-shadow: 0 0 15px #ffd700, 0 0 30px #ffec7d;
+    margin-bottom: 15px;
+    animation: glow 2.5s infinite alternate;
+}
+@keyframes glow {
+    0% { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffec7d; }
+    50% { text-shadow: 0 0 20px #ff8c00, 0 0 30px #ffea00; }
+    100% { text-shadow: 0 0 15px #ffd700, 0 0 25px #fff176; }
+}
 
-        /* دکمه ثابت پایین صفحه */
-        .fixed-button {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-        }
+/* کارت فیلم */
+.movie-card {
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,215,0,0.7);
+    border-radius: 20px;
+    padding: 30px 25px;
+    text-align: center;
+    width: 360px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    margin-bottom: 180px;
+    backdrop-filter: blur(15px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        .fixed-button button {
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
+.movie-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 60px rgba(255,215,0,0.8);
+}
 
-        .fixed-button button:hover {
-            transform: scale(1.05) translateY(-3px);
-            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-        }
+.movie-card img {
+    border-radius: 15px;
+    margin-top: 20px;
+    max-width: 100%;
+    height: 420px;
+    object-fit: cover;
+    box-shadow: 0 0 40px rgba(255,215,0,0.9);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
 
-    </style>
-</head>
+.movie-card img:hover {
+    transform: scale(1.08) rotate(-1deg);
+    box-shadow: 0 0 60px rgba(255,215,0,1);
+}
+
+/* دکمه فیلم بعدی - پایین صفحه ثابت */
+.next-button {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.next-button button {
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(270deg, #ff416c, #ff4b2b, #ffcc33, #22c55e, #3b82f6);
+    background-size: 800% 800%;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: gradientMove 8s ease infinite;
+}
+
+.next-button button:hover {
+    transform: scale(1.15) translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+/* دکمه برگشت - راست بالا */
+.back-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.back-btn:hover {
+    transform: scale(1.12);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.7);
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
+
 <body>
 
-    <div class="movie-card">
-        {% if movie %}
-            <h2>🎬 فیلم تصادفی</h2>
-            <p><strong>عنوان:</strong> {{ movie.title }}</p>
-            <p><strong>ژانر:</strong> {{ movie.genre }}</p>
-            <p><strong>سال انتشار:</strong> {{ movie.release_year }}</p>
-            {% if movie.poster %}
-                <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
-            {% endif %}
-        {% else %}
-            <p>هیچ فیلمی موجود نیست!</p>
+<div class="movie-card">
+    {% if movie %}
+        <h2>🎬 فیلم تصادفی</h2>
+        <p><strong>عنوان:</strong> {{ movie.title }}</p>
+        <p><strong>ژانر:</strong> {{ movie.genre }}</p>
+        <p><strong>سال انتشار:</strong> {{ movie.release_year }}</p>
+        {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
         {% endif %}
-    </div>
+    {% else %}
+        <p>هیچ فیلمی موجود نیست!</p>
+    {% endif %}
+</div>
 
-    <!-- دکمه ثابت -->
-    <div class="fixed-button">
-        <form action="{% url 'random_movie' %}" method="get">
-            <button type="submit">🎲 فیلم بعدی</button>
-        </form>
-    </div>
+<!-- دکمه برگشت سمت راست بالا -->
+<button class="back-btn" onclick="window.location.href='/'">🏠 بازگشت به خانه</button>
+
+<!-- دکمه فیلم بعدی پایین صفحه -->
+<div class="next-button">
+    <form action="{% url 'random_movie' %}" method="get">
+        <button type="submit">🎲 فیلم بعدی</button>
+    </form>
+</div>
 
 </body>
-</html>

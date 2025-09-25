@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>تمام سریال‌ها 🎬</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffec7d;
+            margin-bottom: 30px;
+        }
+
+        .series-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,215,0,0.7);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .series-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(255,215,0,0.7);
+        }
+
+        .series-info {
+            flex: 1;
+        }
+
+        .series-info h2 {
+            color: #ffd700;
+            margin-top: 0;
+        }
+
+        .series-info p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+
+        .series-info a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+
+        .series-info a:hover {
+            text-decoration: underline;
+        }
+
+        .series-image {
+            width: 200px;
+            flex-shrink: 0;
+        }
+
+        .series-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(255,215,0,0.7);
+        }
+
+        .back-btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #8e2de2, #4a00e0);
+            color: #fff;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.12);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.7);
+        }
+    </style>
+</head>
+<body>
+
+<h1>🎬 تمام سریال‌ها</h1>
+
+{% for series in series_list %}
+<div class="series-card">
+    {% if series.image %}
+    <div class="series-image">
+        <img src="{{ series.image }}" alt="پوستر {{ series.title }}">
+    </div>
+    {% endif %}
+    <div class="series-info">
+        <h2>{{ series.title }}</h2>
+        <p><strong>ژانر:</strong> {{ series.genre }}</p>
+        <p><strong>سال ساخت:</strong> {{ series.year }}</p>
+        <p><strong>تعداد فصل:</strong> {{ series.seasons }}</p>
+        <p><strong>تعداد قسمت‌ها:</strong> {{ series.episodes }}</p>
+        <p><strong>متوسط زمان هر قسمت:</strong> {{ series.avg_time }}</p>
+        <p><strong>IMDB:</strong> {{ series.imdb }}</p>
+        {% if series.link %}
+            <p><strong>لینک:</strong> <a href="{{ series.link }}" target="_blank">مشاهده سریال</a></p>
+        {% endif %}
+
+    </div>
+</div>
+{% endfor %}
+
+<button class="back-btn" onclick="window.location.href='/'">🏠 بازگشت به خانه</button>
+
+</body>
+</html>

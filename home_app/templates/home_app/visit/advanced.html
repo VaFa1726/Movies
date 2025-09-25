@@ -1,24 +1,105 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎬 سریال تصادفی</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #1f1c2c; color: #fff; padding: 20px; }
-        .card { background: rgba(0,0,0,0.7); padding: 20px; border-radius: 15px; max-width: 700px; margin: auto; }
-        h2 { color: #ffd700; }
-        p { margin: 5px 0; }
-        a { color: #00ffff; text-decoration: none; }
-        .btn { display: block; margin: 20px auto; padding: 10px 20px; background: #ff416c; border: none; border-radius: 10px; color: #fff; cursor: pointer; }
-        .btn:hover { background: #ff4b2b; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎬 سریال تصادفی</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* کارت سریال */
+.card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,215,0,0.7);
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 700px;
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(255,215,0,0.7);
+}
+
+.card img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-top: 15px;
+    box-shadow: 0 0 30px rgba(255,215,0,0.7);
+    transition: transform 0.5s, box-shadow 0.5s;
+}
+.card img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(255,215,0,1);
+}
+
+/* عنوان */
+h2 {
+    color: #ffd700;
+    text-shadow: 0 0 10px #ffd700, 0 0 20px #ffec7d;
+    margin-top: 0;
+}
+
+/* دکمه‌ها */
+.btn, .back-btn {
+    display: inline-block;
+    margin: 15px 10px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(270deg, #ff416c, #ff4b2b, #ffcc33, #22c55e, #3b82f6);
+    background-size: 800% 800%;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: gradientMove 8s ease infinite;
+}
+.btn:hover, .back-btn:hover {
+    transform: scale(1.15) translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ریسپانسیو موبایل */
+@media(max-width: 500px){
+    .card { padding: 15px; }
+    .btn, .back-btn { width: 90%; margin: 10px auto; }
+}
+</style>
 </head>
 <body>
 
 <div class="card">
     {% if series %}
         <h2>{{ series.title }}</h2>
+        {% if series.image %}
+            <img src="{{ series.image }}" alt="پوستر {{ series.title }}">
+        {% endif %}
         <p><strong>ژانر:</strong> {{ series.genre }}</p>
         <p><strong>سال ساخت:</strong> {{ series.year }}</p>
         <p><strong>تعداد فصل:</strong> {{ series.seasons }}</p>
@@ -28,15 +109,18 @@
         {% if series.link %}
             <p><strong>لینک:</strong> <a href="{{ series.link }}" target="_blank">مشاهده سریال</a></p>
         {% endif %}
-        <p><strong>توضیحات:</strong><br>{{ series.description|linebreaks }}</p>
+
+
+ 
     {% else %}
         <p>هیچ سریالی پیدا نشد!</p>
     {% endif %}
 </div>
 
-<form method="get" action="{% url 'random_series' %}">
+<form method="get" action="{% url 'Advanced' %}">
     <button class="btn" type="submit">🎲 سریال بعدی</button>
 </form>
+<button class="back-btn" onclick="window.location.href='/'">🏠 بازگشت به خانه</button>
 
 </body>
 </html>
