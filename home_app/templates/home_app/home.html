@@ -36,18 +36,26 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 50px;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.5);
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+            border-bottom: 2px solid #ffd700;
         }
 
         header h1 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             color: #ffd700;
-            text-shadow: 0 0 10px #ffd700;
+            text-shadow: 0 0 20px #ffd700;
+            animation: glowText 2s infinite alternate;
+        }
+
+        @keyframes glowText {
+            0% { text-shadow: 0 0 10px #ffd700, 0 0 20px #ff8c00;}
+            50% { text-shadow: 0 0 20px #ffdd00, 0 0 30px #ff7f50;}
+            100% { text-shadow: 0 0 15px #ffd700, 0 0 25px #ff4500;}
         }
 
         /* پروفایل */
@@ -57,85 +65,92 @@
         }
 
         .profile img {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            border: 2px solid #ffd700;
+            border: 3px solid #ffd700;
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .profile:hover img {
-            transform: rotate(15deg) scale(1.1);
-            box-shadow: 0 0 15px #ffd700;
+            transform: rotate(10deg) scale(1.15);
+            box-shadow: 0 0 20px #ffd700, 0 0 40px rgba(255,215,0,0.4);
         }
 
         .dropdown {
             display: none;
             position: absolute;
             right: 0;
-            top: 65px;
-            background: rgba(0,0,0,0.85);
+            top: 70px;
+            background: rgba(0,0,0,0.95);
             border: 1px solid #ffd700;
-            border-radius: 10px;
+            border-radius: 12px;
             min-width: 220px;
             padding: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.4s ease;
+        }
+
+        .profile:hover .dropdown {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .dropdown a {
             display: block;
-            padding: 10px 12px;
+            padding: 12px 15px;
             color: #fff;
             text-decoration: none;
-            border-radius: 6px;
-            margin-bottom: 5px;
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.4s ease;
+            background: linear-gradient(120deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
         }
 
         .dropdown a:hover {
             background: #ffd700;
             color: #000;
-            transform: translateX(5px);
-        }
-
-        .profile:hover .dropdown {
-            display: block;
+            transform: translateX(8px) scale(1.05);
+            box-shadow: 0 0 10px #ffd700;
         }
 
         /* دکمه‌ها */
         .buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 120px auto 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 25px;
-            width: 90%;
-            max-width: 1000px;
+            justify-items: center;
+            margin: 150px auto 50px;
+            width: 95%;
+            max-width: 1200px;
         }
 
         .btn {
+            position: relative;
             display: inline-block;
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: #fff;
             font-size: 1.2rem;
             font-weight: bold;
-            padding: 18px 40px;
-            border-radius: 15px;
+            color: #fff;
+            padding: 20px 35px;
+            border-radius: 20px;
             text-decoration: none;
             text-align: center;
-            transition: all 0.5s ease;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-            position: relative;
             overflow: hidden;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            transition: all 0.5s ease;
         }
 
         .btn:hover {
-            transform: translateY(-8px) scale(1.05) rotate(-1deg);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.7);
+            transform: translateY(-10px) scale(1.08) rotate(-1deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.7);
             background: linear-gradient(135deg, #ffafbd, #ffc3a0);
         }
 
-        /* افکت نوری متحرک روی دکمه */
+        /* نور متحرک روی دکمه */
         .btn::before {
             content: '';
             position: absolute;
@@ -143,9 +158,9 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
             transform: rotate(45deg);
-            transition: all 0.5s;
+            transition: all 0.6s ease;
         }
 
         .btn:hover::before {
@@ -153,47 +168,124 @@
             left: 0;
         }
 
+        /* انیمیشن کوچک اضافی روی دکمه‌ها */
+        .btn span {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover span {
+            transform: scale(1.1) translateY(-2px);
+        }
+
         /* ریسپانسیو */
         @media(max-width: 768px){
             .buttons {
-                flex-direction: column;
-                margin-top: 80px;
+                grid-template-columns: 1fr;
+                margin-top: 120px;
             }
 
             header {
                 padding: 15px 20px;
             }
+
+            header h1 {
+                font-size: 2rem;
+            }
         }
+        .profile {
+    position: relative;
+    cursor: pointer;
+}
+
+.profile img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #ffd700;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.profile:hover img {
+    transform: rotate(10deg) scale(1.15);
+    box-shadow: 0 0 20px #ffd700, 0 0 40px rgba(255,215,0,0.4);
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 70px;
+    background: rgba(0,0,0,0.95);
+    border: 1px solid #ffd700;
+    border-radius: 12px;
+    min-width: 220px;
+    padding: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.4s ease;
+    z-index: 200;
+}
+
+.profile:hover .dropdown {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown a {
+    display: block;
+    padding: 12px 15px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.4s ease;
+    background: linear-gradient(120deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+}
+
+.dropdown a:hover {
+    background: #ffd700;
+    color: #000;
+    transform: translateX(8px) scale(1.05);
+    box-shadow: 0 0 10px #ffd700;
+}
+
     </style>
 </head>
 <body>
-
    
-    <header>
-        <h1>MovieZone 🎬</h1>
-        <div class="profile">
-            <img src="https://i.pravatar.cc/50" alt="Profile">
-            <div class="dropdown">
-                <a href="#">مشاهده لیست فیلم‌ها</a>
-                <a href="#">آخرین ورود</a>
-                <a href="#">فیلم‌های ندیده</a>
-                <a href="#">ویرایش پروفایل</a>
-                <a href="#">خروج</a>
-            </div>
+<header>
+    <h1>MovieZone 🎬</h1>
+
+    <div class="profile">
+        <img src="https://via.placeholder.com/60" alt="Profile">
+
+        <!-- منوی کشویی -->
+        <div class="dropdown">
+            <a href="#">ثبت نام</a>
+            <a href="#">ویرایش حساب کاربری</a>
+            <a href="#">دیدن تمام فیلم‌ها</a>
+            <a href="#">گذاشتن پروفایل</a>
+            <a href="#">خروج از حساب کاربری</a>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- دکمه‌ها -->
     <div class="buttons">
-        <a href="watched.html" class="btn">فیلم‌های دیده شده</a>
-        <a href="unwatched.html" class="btn">فیلم‌های ندیده</a>
-        <a href="random_local.html" class="btn">فیلم رندوم از لیست خودم</a>
-        <a href="random_online.html" class="btn">فیلم رندوم آنلاین 🎥</a>
-        <a href="popular_genres.html" class="btn">ژانرهای محبوب</a>
-        <a href="recommended.html" class="btn">فیلم‌های پیشنهادی</a>
-        <a href="{%url 'form_add'%}" class="btn">اضافه کردن ب لیست دیده شده ها</a>
-        <a href="#" class="btn">اضافه کردن به لیست ندیده شده ها</a>
-        
+        <a href="{% url 'whatched' %}" class="btn"><span>فیلم‌های دیده شده</span></a>
+        <a href="{%url 'unseen'%}" class="btn"><span>فیلم‌های ندیده</span></a>
+        <a href="{% url 'movies' %}" class="btn"><span>فیلم های خودم</span></a>
+        <a href="#" class="btn"><span>فیلم رندوم از لیست خودم</span></a>
+        <a href="#" class="btn"><span>فیلم رندوم آنلاین 🎥</span></a>
+        <a href="#" class="btn"><span>ژانرهای محبوب</span></a>
+        <a href="#" class="btn"><span>فیلم‌های پیشنهادی</span></a>
+        <a href="{% url 'form_add' %}" class="btn"><span>اضافه کردن ب  لیست</span></a>
     </div>
+
 </body>
 </html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <style>
+        /* Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+            font-size: 3rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 2px 2px 5px #ff00ff; }
+            50% { text-shadow: 2px 2px 15px #00ffff; }
+            100% { text-shadow: 2px 2px 20px #ff00ff; }
+        }
+
+        /* Grid */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* کارت فیلم */
+        .movie-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 0.8rem;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px) scale(1.08) rotate(-1deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .movie-card img {
+            width: 180px;        /* بزرگتر */
+            height: 270px;       /* نسبت 2:3 */
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.6s, filter 0.6s;
+        }
+
+        .movie-card img:hover {
+            transform: scale(1.12) rotate(2deg);
+            filter: brightness(1.1);
+        }
+
+        .movie-card p {
+            margin-top: 0.8rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+        }
+
+        /* Placeholder پوستر */
+        .movie-card .no-poster {
+            width: 180px;
+            height: 270px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1rem;
+            border-radius: 10px;
+        }
+
+        /* دکمه برگشت */
+        .back-btn {
+            margin-top: 2rem;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(45deg, #ff4b1f, #1fddff);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .back-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 Movies List</h1>
+
+    <div class="movie-grid">
+        {% for movie in movies %}
+        <div class="movie-card">
+            {% if movie.poster %}
+                <img src="{{ movie.poster.url }}" alt="پوستر {{ movie.title }}">
+            {% else %}
+                <div class="no-poster">بدون پوستر</div>
+            {% endif %}
+            <p>{{ movie.title }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button class="back-btn" onclick="window.location.href='/'">🏠 بازگشت به خانه</button>
+
+</body>
+</html>
