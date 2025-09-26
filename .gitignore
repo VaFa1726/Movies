@@ -12,5 +12,8 @@ venv/
 .vscode/
 .idea/
 
+# Media files
+media/
+
 # Environment
 *.env
