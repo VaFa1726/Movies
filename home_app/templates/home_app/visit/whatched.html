@@ -6,118 +6,130 @@
     <title>فیلم‌های دیده شده 🎬</title>
     <style>
 body {
-    font-family: 'Vazirmatn', sans-serif;
-    background: linear-gradient(135deg, #cbd5e1, #f1f5f9); /* روشن‌تر شد */
-    color: #0f172a; /* رنگ متن هم تیره شد تا خوانا باشد */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
+  margin: 0;
+  padding: 0;
+  font-family: "Vazirmatn", sans-serif;
+  background: linear-gradient(135deg, #fef3c7, #fcd34d);
+  color: #1e293b;
+  min-height: 100vh;
 }
 
+h1 {
+  text-align: center;
+  padding: 25px 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #dc2626;
+  text-shadow: 0 0 8px rgba(220,38,38,0.6);
+}
 
-    h1 {
-        margin-bottom: 2rem;
-        font-size: 3rem;
-        color: #38bdf8;
-        text-shadow: 0 0 15px rgba(56,189,248,0.7);
-        animation: glowText 2s infinite alternate;
-    }
+.movie-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+  padding: 20px;
+}
 
-    @keyframes glowText {
-        0% { text-shadow: 0 0 15px #38bdf8, 0 0 25px #0ea5e9; }
-        50% { text-shadow: 0 0 20px #f97316, 0 0 30px #facc15; }
-        100% { text-shadow: 0 0 18px #22c55e, 0 0 28px #0ea5e9; }
-    }
+.movie-card {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(5px);
+  position: relative;
+  text-align: center;
+  padding-bottom: 15px;
+}
 
-    .movie-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 2rem;
-        width: 100%;
-        max-width: 1200px;
-    }
+.movie-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
 
-    .movie-card {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 18px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        backdrop-filter: blur(12px);
-        position: relative;
-        text-align: center;
-        padding-bottom: 15px;
-    }
+.movie-card img {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  border-bottom: 2px solid #f87171;
+}
 
-    .movie-card:hover {
-        transform: translateY(-12px) scale(1.02);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    }
+.movie-card:hover img {
+  transform: scale(1.05);
+}
 
-    .movie-card img {
-        width: 100%;
-        height: 340px;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-        border-bottom: 2px solid #38bdf8;
-    }
+.no-poster {
+  width: 100%;
+  height: 340px;
+  display: grid;
+  place-items: center;
+  background: #fde68a;
+  color: #b91c1c;
+  font-size: 16px;
+  font-weight: 600;
+}
 
-    .movie-card:hover img {
-        transform: scale(1.1);
-    }
+.movie-card p {
+  margin: 10px 0 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #b91c1c;
+}
 
-    .no-poster {
-        width: 100%;
-        height: 340px;
-        display: grid;
-        place-items: center;
-        background: #334155;
-        color: rgba(255,255,255,0.6);
-        font-size: 14px;
-        font-weight: 600;
-    }
+/* بک‌گراند دکمه بازگشت جذاب و متحرک */
+.back-btn {
+  display: block;
+  margin: 30px auto;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  background: linear-gradient(270deg, #f87171, #f97316, #facc15, #22c55e, #3b82f6);
+  background-size: 1000% 1000%;
+  animation: gradientBG 10s ease infinite;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
 
-    .movie-card p {
-        margin: 10px 0 0 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: #38bdf8;
-    }
+.back-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+}
 
-    /* دکمه بازگشت جذاب‌تر */
-    .back-btn {
-        margin-top: 2rem;
-        padding: 12px 30px;
-        font-size: 18px;
-        font-weight: 700;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        background: linear-gradient(270deg, #ff6b6b, #fcd34d, #22c55e, #3b82f6);
-        background-size: 800% 800%;
-        color: #fff;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-        transition: transform 0.3s, box-shadow 0.3s;
-        animation: gradientMove 8s ease infinite;
-    }
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-    .back-btn:hover {
-        transform: scale(1.12);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.7);
-    }
+.fixed-button button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #10b981, #3b82f6);
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
 
-    @keyframes gradientMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
+.fixed-button button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
     </style>
 </head>
 <body>
-    <h1>🎬 لیست فیلم‌های دیده شده</h1>
+    <h1>🎬 فیلم‌های دیده شده</h1>
 
     <div class="movie-grid">
         {% for movie in movies %}
@@ -133,6 +145,7 @@ body {
     </div>
 
     <button class="back-btn" onclick="window.location.href='/'">🏠 بازگشت به خانه</button>
+
 
 </body>
 </html>
