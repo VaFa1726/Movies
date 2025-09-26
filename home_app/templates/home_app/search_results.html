@@ -1,9 +1,9 @@
-<!-- all_series.html -->
+<!-- search_results.html -->
 <!DOCTYPE html>
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <title>تمام سریال‌ها 🎬</title>
+    <title>نتایج جستجو 🔍</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
 
@@ -20,12 +20,22 @@
         h1 {
             color: #ffd700;
             text-shadow: 0 0 10px #ffd700, 0 0 20px #ffec7d;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        /* استایل فرم جستجو */
+        .search-info {
+            background: rgba(255,215,0,0.1);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+
         .search-form {
-            margin: 30px 0;
+            margin: 20px 0;
             width: 90%;
             max-width: 600px;
         }
@@ -46,10 +56,6 @@
             border: 2px solid #ffd700;
         }
 
-        .search-input::placeholder {
-            color: #ccc;
-        }
-
         .search-btn {
             padding: 15px 30px;
             font-size: 1.1rem;
@@ -59,11 +65,6 @@
             color: #000;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.3s;
-        }
-
-        .search-btn:hover {
-            transform: scale(1.05);
         }
 
         .series-card {
@@ -78,35 +79,11 @@
             gap: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             backdrop-filter: blur(10px);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .series-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(255,215,0,0.7);
-        }
-
-        .series-info {
-            flex: 1;
         }
 
         .series-info h2 {
             color: #ffd700;
             margin-top: 0;
-        }
-
-        .series-info p {
-            margin: 5px 0;
-            line-height: 1.4;
-        }
-
-        .series-info a {
-            color: #00ffff;
-            text-decoration: none;
-        }
-
-        .series-info a:hover {
-            text-decoration: underline;
         }
 
         .series-image {
@@ -117,7 +94,6 @@
         .series-image img {
             width: 100%;
             border-radius: 15px;
-            box-shadow: 0 0 25px rgba(255,215,0,0.7);
         }
 
         .back-btn {
@@ -130,29 +106,33 @@
             color: #fff;
             cursor: pointer;
             margin-top: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .back-btn:hover {
-            transform: scale(1.12);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.7);
         }
     </style>
 </head>
 <body>
 
-<h1>🎬 تمام سریال‌ها</h1>
+<h1>🔍 نتایج جستجو</h1>
 
-<!-- فرم جستجو -->
+<!-- فرم جستجو در صفحه نتایج -->
 <div class="search-form">
     <form method="get" action="{% url 'search_results' %}" class="search-box">
-        <input type="text" name="q" class="search-input" placeholder="جستجو در سریال‌ها (بریکینگ بد، گیم آف ترونز...)">
+        <input type="text" name="q" value="{{ search_query }}" class="search-input" placeholder="جستجو کنید...">
         <button type="submit" class="search-btn">🔍 جستجو</button>
     </form>
 </div>
 
-{% for series in series_list %}
+<!-- اطلاعات جستجو -->
+<div class="search-info">
+    {% if search_query %}
+        <h3>جستجو برای: "{{ search_query }}"</h3>
+        <p>تعداد نتایج: {{ results_count }}</p>
+    {% else %}
+        <h3>همه سریال‌ها</h3>
+    {% endif %}
+</div>
+
+<!-- نتایج -->
+{% for series in results %}
 <div class="series-card">
     {% if series.image %}
     <div class="series-image">
@@ -164,15 +144,20 @@
         <p><strong>ژانر:</strong> {{ series.genre }}</p>
         <p><strong>سال ساخت:</strong> {{ series.year }}</p>
         <p><strong>تعداد فصل:</strong> {{ series.seasons }}</p>
-        <p><strong>تعداد قسمت‌ها:</strong> {{ series.episodes }}</p>
-        <p><strong>متوسط زمان هر قسمت:</strong> {{ series.avg_time }}</p>
         <p><strong>IMDB:</strong> {{ series.imdb }}</p>
         {% if series.link %}
             <p><strong>لینک:</strong> <a href="{{ series.link }}" target="_blank">مشاهده سریال</a></p>
         {% endif %}
     </div>
 </div>
+{% empty %}
+    <div class="search-info">
+        <h3>❌ هیچ سریالی یافت نشد</h3>
+        <p>لطفاً عبارت جستجوی خود را تغییر دهید</p>
+    </div>
 {% endfor %}
+
+
 
 <button class="back-btn" onclick="window.location.href='/'">🏠 بازگشت به خانه</button>
 

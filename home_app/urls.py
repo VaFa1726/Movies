@@ -14,6 +14,6 @@ urlpatterns = [
     path('random/',views.random_movie,name='random_movie_from_mylist'),
     path('advanced/',views.random_series_view,name='Advanced'),
     path('all_movie/',views.all_and_random_series_view,name='all'),
-    
+    path('search/', views.search_view, name='search_results'), 
     path('delete/<int:movie_id>/', views.delete_movie, name='delete_movie'), 
 ]

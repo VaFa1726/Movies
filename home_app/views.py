@@ -75,8 +75,6 @@ def random_movie(request):
         mov = None
     return render(request, 'home_app/visit/random_movie.html', {'movie': mov})
 
-
-
 def random_series(request):
     series_list = get_series_list() 
     selected_series = random.choice(series_list) if series_list else None
@@ -127,7 +125,7 @@ def get_series_list():
         link_tag = title_tag.find('a')
         link = link_tag['href'] if link_tag else None
 
-        # دریافت عکس سریال
+        
         img_tag = title_tag.find_next('img')
         image_url = img_tag['src'] if img_tag else None
 
@@ -155,7 +153,6 @@ def random_series_view(request):
     context = {'series': random_series}
     return render(request, 'home_app/visit/advanced.html', context)
 
-
 import requests
 from bs4 import BeautifulSoup
 import random
@@ -174,10 +171,11 @@ def all_movie():
     for title_tag in titles:
         main_title = title_tag.get_text(strip=True)
 
+        if "سریال ارباب حلقه‌ها: حلقه‌های قدرت" in main_title:
+            continue
         if "لیست سریال‌ها" in main_title:
             continue
 
-        # پیدا کردن جدول اطلاعات
         table = title_tag.find_next('table')
         if not table:
             continue
@@ -240,3 +238,34 @@ def all_and_random_series_view(request):
         'random_series': random_series
     }
     return render(request, 'home_app/visit/all_and_random_series.html', context)
+from django.core.cache import cache
+from django.shortcuts import render
+
+def search_view(request):
+    # دریافت متن جستجو
+    search_text = request.GET.get('q', '').strip().lower()
+    
+    # کش کردن داده‌ها برای سرعت فوق‌العاده
+    cache_key = 'all_series_cache'
+    all_series = cache.get(cache_key)
+    
+    if not all_series:
+        all_series = all_movie()  # فقط اولین بار اجرا میشه
+        cache.set(cache_key, all_series, 3600)  # کش برای ۱ ساعت
+    
+    # جستجوی سریع با لیست کامپرینشن
+    if not search_text:
+        results = all_series
+    else:
+        results = [
+            series for series in all_series 
+            if search_text in series['title'].lower()
+        ]
+    
+    context = {
+        'search_query': search_text,
+        'results': results,
+        'results_count': len(results)
+    }
+    
+    return render(request, 'home_app/search_results.html', context)

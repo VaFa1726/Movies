@@ -141,37 +141,39 @@
 <body>
   <h1>🎬 لیست فیلم‌ها</h1>
   <div class="container">
-    {% for movie in movies %}
-    <div class="card">
-      <div class="poster">
-        {% if movie.poster %}
-          <img src="{{ movie.poster.url }}" alt="پوستر {{ movie.title }}">
-        {% else %}
-          بدون پوستر
-        {% endif %}
-      </div>
-      <div class="info">
-        <p class="title">{{ movie.title }}</p>
-        <p>{{ movie.description }}</p>
-        <p>ژانر: {{ movie.genre }}</p>
-        <p>سال: {{ movie.release_year }}</p>
+    {%if movies%}
+      {% for movie in movies %}
+      <div class="card">
+        <div class="poster">
+          {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" alt="پوستر {{ movie.title }}">
+          {% else %}
+            بدون پوستر
+          {% endif %}
+        </div>
+        <div class="info">
+          <p class="title">{{ movie.title }}</p>
+          <p>{{ movie.description }}</p>
+          <p>ژانر: {{ movie.genre }}</p>
+          <p>سال: {{ movie.release_year }}</p>
 
-        <span class="status {% if movie.status %}available{% else %}unavailable{% endif %}">
-          {% if movie.status %}✔ دیده شده{% else %}⏳ ندیده{% endif %}
-        </span>
+          <span class="status {% if movie.status %}available{% else %}unavailable{% endif %}">
+            {% if movie.status %}✔ دیده شده{% else %}⏳ ندیده{% endif %}
+          </span>
 
-        <!-- دکمه حذف -->
-        <div class="actions">
-          <form action="{% url 'delete_movie' movie.id %}" method="POST">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-delete">🗑 حذف</button>
-          </form>
+          <!-- دکمه حذف -->
+          <div class="actions">
+            <form action="{% url 'delete_movie' movie.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-delete">🗑 حذف</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-    {% empty %}
-      <p style="grid-column: 1/-1; text-align:center; font-size:18px;">هیچ فیلمی اضافه نشده 😢</p>
-    {% endfor %}
+      {% empty %}
+        <p style="grid-column: 1/-1; text-align:center; font-size:18px;">هیچ فیلمی اضافه نشده 😢</p>
+      {% endfor %}
+    {%endif%}
   </div>
   <div>
    <button class="back-btn" onclick="window.location.href='/'">🏠 بازگشت به خانه</button>
