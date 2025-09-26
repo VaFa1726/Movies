@@ -4,7 +4,6 @@ from django.conf import settings
 import os
 
 class Movie(models.Model):
-      # هر فیلم به کاربر مرتبط است
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     genre = models.CharField(max_length=100, blank=True)

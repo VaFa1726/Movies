@@ -242,18 +242,17 @@ from django.core.cache import cache
 from django.shortcuts import render
 
 def search_view(request):
-    # دریافت متن جستجو
+
     search_text = request.GET.get('q', '').strip().lower()
     
-    # کش کردن داده‌ها برای سرعت فوق‌العاده
+
     cache_key = 'all_series_cache'
     all_series = cache.get(cache_key)
     
     if not all_series:
-        all_series = all_movie()  # فقط اولین بار اجرا میشه
-        cache.set(cache_key, all_series, 3600)  # کش برای ۱ ساعت
+        all_series = all_movie()  
+        cache.set(cache_key, all_series, 3600)  
     
-    # جستجوی سریع با لیست کامپرینشن
     if not search_text:
         results = all_series
     else:
